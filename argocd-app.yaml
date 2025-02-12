@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-app
+  namespace: argocd
+spec:           # This section defines how and where Argo CD should deploy the application.
+  destination:      # This specifies where to deploy the application (in k8s)
+    namespace: a1helene   # The Kubernetes namespace where the application will be deployed.
+    server: https://kubernetes.default.svc     # 'default' here refers to the default internal service name for the Kubernetes API server inside the cluster. 
+  project: default
+  source:
+    repoURL: https://github.com/hbaydevops/k8s-demo-app-repo.git
+    path: .   # Path inside the repo where manifests are stored
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
